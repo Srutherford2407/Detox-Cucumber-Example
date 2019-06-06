@@ -29,31 +29,22 @@ class SimulatorLogRecording extends Artifact {
 
     this._logContext = {
       fileHandle,
+      throttle: sleep(100),
       process: this._appleSimUtils.logStream({
         udid: this._udid,
-        // processImagePath: await this._getProcessImagePath(),
+        processImagePath: await this._getProcessImagePath(),
         stdout: fileHandle,
         level: 'debug',
         style: 'compact',
       }),
     };
-
-    await sleep(100);
   }
 
   async doStop() {
     if (this._logContext) {
-      const { fileHandle, process } = this._logContext;
-
-      const graceful = await Promise.race([
-        sleep(250).then(() => false),
-        exec.interruptProcess(process).then(() => true),
-      ]);
-
-      if (!graceful) {
-        await exec.interruptProcess(process, 'SIGTERM');
-      }
-
+      const { fileHandle, throttle, process } = this._logContext;
+      await throttle;
+      await exec.interruptProcess(process, 'SIGTERM');
       await fs.close(fileHandle);
       this._logContext = null;
     }

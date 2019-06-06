@@ -44,7 +44,16 @@ class SimulatorLogRecording extends Artifact {
   async doStop() {
     if (this._logContext) {
       const { fileHandle, process } = this._logContext;
-      await exec.interruptProcess(process, 'SIGTERM');
+
+      const graceful = await Promise.race([
+        sleep(250).then(() => false),
+        exec.interruptProcess(process).then(() => true),
+      ]);
+
+      if (!graceful) {
+        await exec.interruptProcess(process, 'SIGTERM');
+      }
+
       await fs.close(fileHandle);
       this._logContext = null;
     }

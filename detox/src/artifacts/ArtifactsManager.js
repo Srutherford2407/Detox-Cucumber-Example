@@ -178,7 +178,7 @@ class ArtifactsManager {
     const pluginsByPriority = _.chain(this._artifactPlugins)
       .groupBy('priority')
       .entries()
-      .sortBy(0)
+      .sortBy(([priority]) => Number(priority))
       .map(1)
       .value();
 

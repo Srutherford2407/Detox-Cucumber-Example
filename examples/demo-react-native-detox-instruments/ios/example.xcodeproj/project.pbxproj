@@ -950,8 +950,6 @@
 					"-lc++",
 					"-ObjC",
 					"-F\"${CODESIGNING_FOLDER_PATH}\"/Frameworks",
-					"-framework",
-					DTXProfiler,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.wix.demo.react.native;
 				PRODUCT_NAME = example;
@@ -970,8 +968,6 @@
 					"-lc++",
 					"-ObjC",
 					"-F\"${CODESIGNING_FOLDER_PATH}\"/Frameworks",
-					"-framework",
-					DTXProfiler,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.wix.demo.react.native;
 				PRODUCT_NAME = example;

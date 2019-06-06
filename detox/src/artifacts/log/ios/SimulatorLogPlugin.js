@@ -14,7 +14,7 @@ class SimulatorLogPlugin extends LogArtifactPlugin {
 
   async onBeforeLaunchApp(event) {
     await super.onBeforeLaunchApp(event);
-    await this.onBeforeAll();
+    await this.onReadyToRecord();
 
     if (this.currentRecording) {
       await this.currentRecording.start({

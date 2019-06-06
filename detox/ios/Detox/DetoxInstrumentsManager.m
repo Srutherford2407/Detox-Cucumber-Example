@@ -108,6 +108,8 @@ static BOOL __DTXDecryptFramework(NSURL* encryptedBinaryURL, NSURL* targetBinary
 		
 		if(__DTXProfiler == NULL)
 		{
+			dtx_log_info(@"DTXProfiler class was not found, loading Profiler framework manually");
+			
 			//The user has not linked the Profiler framework. Load it manually.
 			
 			NSString* instrumentsPath = [NSUserDefaults.standardUserDefaults stringForKey:@"instrumentsPath"];
@@ -158,6 +160,10 @@ static BOOL __DTXDecryptFramework(NSURL* encryptedBinaryURL, NSURL* targetBinary
 				dtx_log_error(@"Error loading Profiler framework bundle: %@", error);
 				return;
 			}
+		}
+		else
+		{
+			dtx_log_info(@"DTXProfiler class was found in hosting process");
 		}
 		
 		static void (^cleanupOnError)(void) = ^ {
